@@ -12,3 +12,6 @@
    * $navigationIcon = 'heroicon-o-rectangle-stack' -> navigation icon  
    * form(Form $form): Form -> used to define create and update operations
    * function table(Table $table): Table ->columns : defines what should be visible in the table in Users view. 
+   * in UserResource.php `form(Form $form)` -> `schema` create fields that will be in `Create User` view (form).
+8. Creating Users view (table) inside `function table(Table $table) { $table->columns([....])}
+

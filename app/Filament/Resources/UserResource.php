@@ -6,6 +6,9 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -17,13 +20,22 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    // protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    // picking another icon from https://heroicons.com/
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                TextInput::make('name')->required(),
+                TextInput::make('email')->email(),
+                TextInput::make('password')->password()->visibleOn('create'),
+                // Select::make('name')->options([
+                //     'test' => 'test as name',
+                //     'youtube' => 'youtube as name',
+                //     ])
             ]);
     }
 
@@ -31,7 +43,12 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('name'),
+                TextColumn::make('email'),
+                TextColumn::make('password'),
+                TextColumn::make('id'),
+                // created_at
+                TextColumn::make('created_at'),
             ])
             ->filters([
                 //
