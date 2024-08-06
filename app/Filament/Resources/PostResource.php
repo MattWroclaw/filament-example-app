@@ -15,6 +15,8 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Section;
 use Filament\Tables;
 use Filament\Tables\Columns\ColorColumn;
 use Filament\Tables\Columns\ImageColumn;
@@ -35,21 +37,56 @@ class PostResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('title')->required(),
-                TextInput::make('slug')->required(),
+                Section::make('Create a Post')
+                    ->description('Create Post over here')
+                    ->collapsible()
+                    ->schema([
 
-                Select::make('category_id')->label('Category')
-                ->options(
-                    \App\Models\Category::all()->pluck('name', 'id')
-                ),
+                        Group::make()->schema([
+                            TextInput::make('title')->required()->minLength(2)->maxLength(10),
+                            TextInput::make('slug')->unique(ignoreRecord:true)->required(),
+                        ]),
 
-                FileUpload::make('thumbnail')->disk('public')->directory('thumbnails'),
 
-                MarkdownEditor::make('content')->required(),
-                ColorPicker::make('color'),
-                TagsInput::make('tag')->required(),
-                Checkbox::make('published'),
-            ]);
+                        Select::make('category_id')->label('Category')
+                            ->options(
+                                \App\Models\Category::all()->pluck('name', 'id')
+                            )->required(),
+
+
+                        MarkdownEditor::make('content')->required()->columnSpan('full'),
+                        ColorPicker::make('color'),
+                    ])->columnSpan(2)->columns(2),
+
+                Group::make()->schema([
+                    Section::make('Image')
+                        ->schema([
+
+                            FileUpload::make('thumbnail')->disk('public')
+                            ->directory('thumbnails')
+                            ->nullable(),
+
+                        ])->columnSpan(1)->collapsible(),
+
+                    Section::make('Meta')
+                        ->schema([
+                            TagsInput::make('tag')->required(),
+                            Checkbox::make('published'),
+                        ]),
+                ])
+
+
+
+            ])->columns( 2
+            // we can control it manually but this is not needed, filament will handle it automatically
+            //     [
+            //     'default' => 1,
+            //     'md' => 2,
+            //     'lg' => 3,
+            //     'xl' => 4,
+            // ]
+    
+        );
     }
 
     public static function table(Table $table): Table

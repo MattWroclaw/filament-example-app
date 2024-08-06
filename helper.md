@@ -28,4 +28,6 @@ Class "App\Models\Post" not found -> `php artisan migrate`
  * -> need to link storage(?) `php artisan storage:link` --> link has been connected to [C:\Projects\Playground\filament-example-app\storage\app/public].
  * -> in `.env` make sure this is right: `APP_URL=http://127.0.0.1:8000` when there is `localhost` and in browser IP, then it is not loading for Update view. 
 
- 15. To make category name make visble on Posts view we need to add in Post model in `category()` method this relationship chunk `$this->belongsTo(Category::class);`
+ 15. To make category name make visble on Posts view we need to add in Post model in `category()` method this relationship chunk `$this->belongsTo(Category::class);`  
+ 16. Control layout of form. PostResource, method `form()` . *Note* `Section::make` always takes whole width. `Group` keeps things in the same column  
+ 
