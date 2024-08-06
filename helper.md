@@ -14,4 +14,18 @@
    * function table(Table $table): Table ->columns : defines what should be visible in the table in Users view. 
    * in UserResource.php `form(Form $form)` -> `schema` create fields that will be in `Create User` view (form).
 8. Creating Users view (table) inside `function table(Table $table) { $table->columns([....])}
+9. Creating 2 new models 
+    * tworzenie migrate dla Post: `php artisan make:model Post -m`
+    * twprzenie migrage dla Category: ` php artisan make:model Category -m`
+    * Category model. `php artisan make:filament-resource Category` (Filament/Rosurces is there, tab on the sidebar is visible but the Model is not created yet)
+    * Post model  `php artisan make:filament-resource Post` 
+10. Fixing the Error
+Class "App\Models\Post" not found -> `php artisan migrate` 
+11. The Post & Categories view are now available (thou empty)
+12. Fill out CategoryResource.php `form()` with ->schema, TextiInput.. and in `table()` -> TextColumn..
+13. In Post model we need to implement `$fillable= ['title' ' 'slug' , 'color'...] ` We do the same in `PostResource.php` for `form()` [TextInput]  and `table()` [ColunmInput] methods. **Warning** need to handle deletion of files on delete-post
+14. Files issue 
+ * -> need to link storage(?) `php artisan storage:link` --> link has been connected to [C:\Projects\Playground\filament-example-app\storage\app/public].
+ * -> in `.env` make sure this is right: `APP_URL=http://127.0.0.1:8000` when there is `localhost` and in browser IP, then it is not loading for Update view. 
 
+ 15. To make category name make visble on Posts view we need to add in Post model in `category()` method this relationship chunk `$this->belongsTo(Category::class);`
