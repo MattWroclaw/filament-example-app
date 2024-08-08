@@ -48,10 +48,13 @@ class PostResource extends Resource
                         ]),
 
 
-                        Select::make('category_id')->label('Category')
-                            ->options(
-                                \App\Models\Category::all()->pluck('name', 'id')
-                            )->required(),
+                        Select::make('category_id')
+                            ->label('Category')
+                            // ->options(
+                            //     \App\Models\Category::all()->pluck('name', 'id'))
+                            ->relationship('category' , 'name')
+                            ->searchable()
+                            ->required(),
 
 
                         MarkdownEditor::make('content')->required()->columnSpan('full'),

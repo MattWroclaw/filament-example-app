@@ -1,3 +1,4 @@
+0. https://www.youtube.com/watch?v=c_hL4wKYfHY&list=WL&index=7&t=2s
 1. php.ini -> ucnomment 2 things: .zip & something else
 2. create project via `php artisan create...`
 3. Create filament:
@@ -30,4 +31,8 @@ Class "App\Models\Post" not found -> `php artisan migrate`
 
  15. To make category name make visble on Posts view we need to add in Post model in `category()` method this relationship chunk `$this->belongsTo(Category::class);`  
  16. Control layout of form. PostResource, method `form()` . *Note* `Section::make` always takes whole width. `Group` keeps things in the same column  
+ 17. Relation Manager, create manager `php artisan make:filament-relation-manager CategoryResource posts title`   In app/Filament/Resources/RelationManagers/PostsRelationManager.php is created
+ Output:    INFO  Make sure to register the relation in `CategoryResource::getRelations()`. -> we do this in `getRelations()` method . Now in Post Categories>Edit we see Posts frm given Category. An we can even cretae Posts in here. 
+
+
  
