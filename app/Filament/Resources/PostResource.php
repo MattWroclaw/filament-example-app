@@ -44,7 +44,7 @@ class PostResource extends Resource
 
                         Group::make()->schema([
                             TextInput::make('title')->required()->minLength(2)->maxLength(10),
-                            TextInput::make('slug')->unique(ignoreRecord:true)->required(),
+                            TextInput::make('slug')->unique(ignoreRecord: true)->required(),
                         ]),
 
 
@@ -52,7 +52,7 @@ class PostResource extends Resource
                             ->label('Category')
                             // ->options(
                             //     \App\Models\Category::all()->pluck('name', 'id'))
-                            ->relationship('category' , 'name')
+                            ->relationship('category', 'name')
                             ->searchable()
                             ->required(),
 
@@ -66,8 +66,8 @@ class PostResource extends Resource
                         ->schema([
 
                             FileUpload::make('thumbnail')->disk('public')
-                            ->directory('thumbnails')
-                            ->nullable(),
+                                ->directory('thumbnails')
+                                ->nullable(),
 
                         ])->columnSpan(1)->collapsible(),
 
@@ -76,28 +76,38 @@ class PostResource extends Resource
                             TagsInput::make('tag')->required(),
                             Checkbox::make('published'),
                         ]),
+
+                    Section::make('Authors')
+                        ->schema([
+                            Select::make('authors')
+                            ->label('Co-authors')
+                            ->searchable(true)
+                            ->multiple()
+                            ->relationship('authors' , 'name')
+                        ]),
                 ])
 
 
 
-            ])->columns( 2
-            // we can control it manually but this is not needed, filament will handle it automatically
-            //     [
-            //     'default' => 1,
-            //     'md' => 2,
-            //     'lg' => 3,
-            //     'xl' => 4,
-            // ]
-    
-        );
+            ])->columns(
+                2
+                // we can control it manually but this is not needed, filament will handle it automatically
+                //     [
+                //     'default' => 1,
+                //     'md' => 2,
+                //     'lg' => 3,
+                //     'xl' => 4,
+                // ]
+
+            );
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('id')->sortable()->searchable()->toggleable(isToggledHiddenByDefault:true),
-                
+                TextColumn::make('id')->sortable()->searchable()->toggleable(isToggledHiddenByDefault: true),
+
                 ImageColumn::make('thumbnail')->toggleable(),
                 ColorColumn::make('color')->toggleable(),
                 TextColumn::make('title')->sortable()->searchable(),
@@ -106,7 +116,7 @@ class PostResource extends Resource
                 TextColumn::make('tag'),
                 CheckboxColumn::make('published')->toggleable(),
                 TextColumn::make('created_at')->label('Published on')
-                ->date()->sortable()->searchable()->toggleable(),
+                    ->date()->sortable()->searchable()->toggleable(),
 
 
             ])

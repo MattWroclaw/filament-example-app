@@ -31,8 +31,13 @@ Class "App\Models\Post" not found -> `php artisan migrate`
 
  15. To make category name make visble on Posts view we need to add in Post model in `category()` method this relationship chunk `$this->belongsTo(Category::class);`  
  16. Control layout of form. PostResource, method `form()` . *Note* `Section::make` always takes whole width. `Group` keeps things in the same column  
- 17. Relation Manager, create manager `php artisan make:filament-relation-manager CategoryResource posts title`   In app/Filament/Resources/RelationManagers/PostsRelationManager.php is created
+ 17. Relation Manager [one::many], create manager `php artisan make:filament-relation-manager CategoryResource posts title`   In app/Filament/Resources/RelationManagers/PostsRelationManager.php is created
  Output:    INFO  Make sure to register the relation in `CategoryResource::getRelations()`. -> we do this in `getRelations()` method . Now in Post Categories>Edit we see Posts frm given Category. An we can even cretae Posts in here. 
-
+ 18. Many:many [posts::users]. 
+    1. create migration `php artisan make:migration create_post_user_table --create=post_user` and this will create database/migrations/create_post_user_table migration.  We add this `foreignIdFor` to the migration class. 
+    2. we migrate our database with `php artisan migrate`
+    3. we define relationships `belongsToMany` in models (Post, Users)
+    4. adding Authors in Posts resource.
+    20. we can do the same with relatioship manager
 
  
