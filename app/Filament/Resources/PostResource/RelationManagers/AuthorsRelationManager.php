@@ -29,7 +29,7 @@ class AuthorsRelationManager extends RelationManager
                 TextInput::make('name')->required(),
                 TextInput::make('email')->email(),
                 TextInput::make('password')->password()->visibleOn('create'),
-                TextInput::make('order')->numeric(),
+                // TextInput::make('order')->numeric(),
 
                  
 

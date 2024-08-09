@@ -18,6 +18,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Tabs\Tab;
+use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Columns\ColorColumn;
 use Filament\Tables\Columns\ImageColumn;
@@ -38,17 +41,16 @@ class PostResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Create a Post')
-                    ->description('Create Post over here')
-                    ->collapsible()
-                    ->schema([
 
-                        Group::make()->schema([
-                            TextInput::make('title')->required()->minLength(2)->maxLength(10),
-                            TextInput::make('slug')->unique(ignoreRecord: true)->required(),
-                        ]),
+                Tabs::make('Create New Post')->tabs([
 
-
+                    Tab::make('Tab 1')
+                        ->icon('heroicon-o-chat-bubble-oval-left')
+                        ->iconPosition(IconPosition::After)
+                        ->badge('this is a badge')
+                        ->schema([
+                        TextInput::make('title')->required()->minLength(2)->maxLength(10),
+                        TextInput::make('slug')->unique(ignoreRecord: true)->required(),
                         Select::make('category_id')
                             ->label('Category')
                             // ->options(
@@ -56,38 +58,24 @@ class PostResource extends Resource
                             ->relationship('category', 'name')
                             ->searchable()
                             ->required(),
+                        ColorPicker::make('color'),
+                    ]),
 
+                    Tab::make('Content')->schema([
 
                         MarkdownEditor::make('content')->required()->columnSpan('full'),
-                        ColorPicker::make('color'),
-                    ])->columnSpan(2)->columns(2),
+                    ]),
 
-                Group::make()->schema([
-                    Section::make('Image')
-                        ->schema([
+                    Tab::make('Meta')->schema([
 
-                            FileUpload::make('thumbnail')->disk('public')
-                                ->directory('thumbnails')
-                                ->nullable(),
+                        FileUpload::make('thumbnail')->disk('public')
+                            ->directory('thumbnails')
+                            ->nullable(),
 
-                        ])->columnSpan(1)->collapsible(),
-
-                    Section::make('Meta')
-                        ->schema([
-                            TagsInput::make('tag')->required(),
-                            Checkbox::make('published'),
-                        ]),
-
-                        // Because we have AuthorsRelationship manager, we can comment this out. It does the same thing
-                    // Section::make('Authors')
-                    //     ->schema([
-                    //         Select::make('authors')
-                    //         ->label('Co-authors')
-                    //         ->searchable(true)
-                    //         ->multiple()
-                    //         ->relationship('authors' , 'name')
-                    //     ]),
-                ])
+                        TagsInput::make('tag')->required(),
+                        Checkbox::make('published'),
+                    ]),
+                ])->columnSpanFull()->activeTab(2)->persistTabInQueryString(),
 
 
 
@@ -139,7 +127,7 @@ class PostResource extends Resource
     public static function getRelations(): array
     {
         return [
-            AuthorsRelationManager::class,          
+            AuthorsRelationManager::class,
         ];
     }
 
