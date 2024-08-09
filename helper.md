@@ -35,9 +35,24 @@ Class "App\Models\Post" not found -> `php artisan migrate`
  Output:    INFO  Make sure to register the relation in `CategoryResource::getRelations()`. -> we do this in `getRelations()` method . Now in Post Categories>Edit we see Posts frm given Category. An we can even cretae Posts in here. 
  18. Many:many [posts::users]. 
     1. create migration `php artisan make:migration create_post_user_table --create=post_user` and this will create database/migrations/create_post_user_table migration.  We add this `foreignIdFor` to the migration class. 
-    2. we migrate our database with `php artisan migrate`
+    2. we migrate our database with command `php artisan migrate`
     3. we define relationships `belongsToMany` in models (Post, Users)
-    4. adding Authors in Posts resource.
-    20. we can do the same with relatioship manager
+    4. adding Authors section in Posts resource in `form()` method.
+    20. we can do the same with relatioship manager(this is a single resource file that handles relationships ) : `php artisan make:filament-relation-manager`. This will give interactive commands like so:  
+     php artisan make:filament-relation-manager
 
- 
+  What is the resource you would like to create this in?
+❯ PostResource
+
+  What is the relationship?
+❯ authors
+
+  What is the title attribute?
+❯ name
+
+   INFO  Filament relation manager [C:/Projects/Playground/filament-example-app/app/Filament/Resources/PostResource/RelationManagers/AuthorsRelationManager.php] created successfully.
+
+   INFO  Make sure to register the relation in `PostResource::getRelations()`.  
+   **app\Filament\Resource\PostResource\RelationsManagers\AuthorsRelationManager.php** <-- new file just created. *Register* in PostResource.php in `getRelations` method.
+
+ 19. **Pivots** We add `$table->integer('order')->default(0);` We run migration `php artisan migrate:refresh --step=1` this re-reuns last migration.  Then we need to define Pivots in the both models, like this `->withPivotValue(['order'])` . We add ` TextInput::make('order')->numeric(),` to AuthorsRelationManager. 

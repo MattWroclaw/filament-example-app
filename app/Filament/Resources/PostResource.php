@@ -3,7 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostResource\Pages;
-use App\Filament\Resources\PostResource\RelationManagers;
+
+use App\Filament\Resources\PostResource\RelationManagers\AuthorsRelationManager;
 use App\Models\Post;
 use Filament\Forms;
 use Filament\Forms\Components\ColorPicker;
@@ -77,14 +78,15 @@ class PostResource extends Resource
                             Checkbox::make('published'),
                         ]),
 
-                    Section::make('Authors')
-                        ->schema([
-                            Select::make('authors')
-                            ->label('Co-authors')
-                            ->searchable(true)
-                            ->multiple()
-                            ->relationship('authors' , 'name')
-                        ]),
+                        // Because we have AuthorsRelationship manager, we can comment this out. It does the same thing
+                    // Section::make('Authors')
+                    //     ->schema([
+                    //         Select::make('authors')
+                    //         ->label('Co-authors')
+                    //         ->searchable(true)
+                    //         ->multiple()
+                    //         ->relationship('authors' , 'name')
+                    //     ]),
                 ])
 
 
@@ -137,7 +139,7 @@ class PostResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            AuthorsRelationManager::class,          
         ];
     }
 
