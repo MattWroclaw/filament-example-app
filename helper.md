@@ -1,5 +1,5 @@
 0. https://www.youtube.com/watch?v=c_hL4wKYfHY&list=WL&index=7&t=2s
-1. php.ini -> ucnomment 2 things: .zip & something else
+1. php.ini -> ucnomment 2 things: .zip & `extension=intl` 
 2. create project via `php artisan create...`
 3. Create filament:
    1. `composer require filament/filament:"^3.2" -W`
